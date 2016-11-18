@@ -25,10 +25,109 @@ public class MainActivity extends AppCompatActivity {
 
     static final String DATA_TITLE = "T";
     static final String DATA_LINK  = "L";
+    static LinkedList<HashMap<String, String>> data;
+    static String feedUrl = "http://www.maestrosdelweb.com/index.xml";
+    private ProgressDialog progressDialog;
+
+    /**
+     * Android nos presenta la restricciones que no podemos alterar los elementos de interfaz
+     * gr‡fica en un hilo de ejecuci—n que no sea el principal por lo que es necesario utilizar
+     * un manejador(Handler) para enviar un mensaje de un hilo a otro cuando la carga de datos
+     * haya terminado.
+     */
+    private final Handler progressHandler = new Handler() {
+        @SuppressWarnings("unchecked")
+        public void handleMessage(Message msg) {
+            if (msg.obj != null) {
+                data = (LinkedList<HashMap<String, String>>)msg.obj;
+                setData(data);
+            }
+            progressDialog.dismiss();
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        setTitle("Lector de feed Maestros del Web");
+
+        Button btn = (Button) findViewById(R.id.btnLoad);
+        btn.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ListView lv = (ListView) findViewById(R.id.lstData);
+                if (lv.getAdapter() != null) {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+                    builder.setMessage("ya ha cargado datos, ÀEst‡ seguro de hacerlo de nuevo?")
+                            .setCancelable(false)
+                            .setPositiveButton("Si", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    loadData();
+                                }
+                            })
+                            .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    dialog.cancel();
+                                }
+                            })
+                            .create()
+                            .show();
+                } else {
+                    loadData();}
+            }
+        });
+        ListView lv = (ListView) findViewById(R.id.lstData);
+        lv.setOnItemClickListener(new OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> av, View v, int position,
+                                    long id) {
+                /**
+                 * Obtenemos el elemento sobre el que se presion—
+                 */
+                HashMap<String, String> entry = data.get(position);
+
+                /**
+                 * Preparamos el intent ACTION_VIEW y luego iniciamos la actividad (navegador en este caso)
+                 */
+                Intent browserAction = new Intent(Intent.ACTION_VIEW,
+                        Uri.parse(entry.get(DATA_LINK)));
+                startActivity(browserAction);
+            }
+        });
     }
+    /**
+     * Funci—n auxiliar que recibe una lista de mapas, y utilizando esta data crea un adaptador
+     * para poblar al ListView del dise–o
+     * */
+    private void setData(LinkedList<HashMap<String, String>> data){
+        SimpleAdapter sAdapter = new SimpleAdapter(getApplicationContext(), data,
+                android.R.layout.two_line_list_item,
+                new String[] { DATA_TITLE, DATA_LINK },
+                new int[] { android.R.id.text1, android.R.id.text2 });
+        ListView lv = (ListView) findViewById(R.id.lstData);
+        lv.setAdapter(sAdapter);
+    }
+    /**
+     * Funci—n auxiliar que inicia la carga de datos, muestra al usuario un di‡logo de que
+     * se est‡n cargando los datos y levanta un thread para lograr la carga.
+     */
+    private void loadData() {
+        progressDialog = ProgressDialog.show(
+                MainActivity.this,
+                "",
+                "Por favor espere mientras se cargan los datos...",
+                true);
+
+        new Thread(new Runnable(){
+            @Override
+            public void run() {
+                XMLParser parser = new XMLParser(feedUrl);
+                Message msg = progressHandler.obtainMessage();
+                msg.obj = parser.parse();
+                progressHandler.sendMessage(msg);
+            }}).start();
+    }
+
 }
