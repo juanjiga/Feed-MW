@@ -26,7 +26,9 @@ public class MainActivity extends AppCompatActivity {
     static final String DATA_TITLE = "T";
     static final String DATA_LINK  = "L";
     static LinkedList<HashMap<String, String>> data;
-    static String feedUrl = "http://www.maestrosdelweb.com/index.xml";
+    static String feedUrl;
+    static String feedmarcaUrl = "http://estaticos.marca.com/rss/futbol/atletico.xml";
+    static String feedasUrl = "http://masdeporte.as.com/tag/rss/atletico_madrid/a";
     private ProgressDialog progressDialog;
 
     /**
@@ -51,16 +53,21 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        setTitle("Lector de feed Maestros del Web");
+        setTitle("Feed Atlético de Madrid");
+        ListView lv = (ListView) findViewById(R.id.lstData);
 
-        Button btn = (Button) findViewById(R.id.btnLoad);
-        btn.setOnClickListener(new OnClickListener() {
+        Button boton_as = (Button) findViewById(R.id.button_as);
+        boton_as.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                ListView lv = (ListView) findViewById(R.id.lstData);
+                setTitle("Noticias del As");
+                feedUrl=feedasUrl;
+                loadData();
+
+                /*ListView lv = (ListView) findViewById(R.id.lstData);
                 if (lv.getAdapter() != null) {
                     AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-                    builder.setMessage("ya ha cargado datos, ÀEst‡ seguro de hacerlo de nuevo?")
+                    builder.setMessage("Ya ha cargado datos, ¿está seguro de hacerlo de nuevo?")
                             .setCancelable(false)
                             .setPositiveButton("Si", new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int id) {
@@ -75,10 +82,21 @@ public class MainActivity extends AppCompatActivity {
                             .create()
                             .show();
                 } else {
-                    loadData();}
+                    feedUrl=feedmarcaUrl;
+                    loadData();
+                }*/
             }
         });
-        ListView lv = (ListView) findViewById(R.id.lstData);
+        Button boton_marca = (Button) findViewById(R.id.button_marca);
+        boton_marca.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setTitle("Noticias del Marca");
+                feedUrl=feedmarcaUrl;
+                loadData();
+            }
+        });
+        //ListView lv = (ListView) findViewById(R.id.lstData);
         lv.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> av, View v, int position,
@@ -103,9 +121,9 @@ public class MainActivity extends AppCompatActivity {
      * */
     private void setData(LinkedList<HashMap<String, String>> data){
         SimpleAdapter sAdapter = new SimpleAdapter(getApplicationContext(), data,
-                android.R.layout.two_line_list_item,
+                R.layout.fila,
                 new String[] { DATA_TITLE, DATA_LINK },
-                new int[] { android.R.id.text1, android.R.id.text2 });
+                new int[] { R.id.textView1, R.id.textView2 });
         ListView lv = (ListView) findViewById(R.id.lstData);
         lv.setAdapter(sAdapter);
     }
