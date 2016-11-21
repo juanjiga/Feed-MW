@@ -25,7 +25,14 @@
             android:layout_height="wrap_content"
             android:id="@+id/button_marca"
             android:layout_weight="1"/>
-     </LinearLayout>
+
+        <Button
+            android:text="mundo d."
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/button_mundod"
+            android:layout_weight="1" />
+    </LinearLayout>
 
 <ListView
     android:id="@+id/lstData"
