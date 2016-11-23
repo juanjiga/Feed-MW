@@ -2,12 +2,9 @@ package com.juanjiga.feed_mw;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.app.AlertDialog;
 import android.app.ProgressDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
-import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.view.View;
@@ -29,7 +26,7 @@ public class MainActivity extends AppCompatActivity {
     static String feedUrl;
     static String feedmarcaUrl = "http://estaticos.marca.com/rss/futbol/atletico.xml";
     static String feedasUrl = "http://masdeporte.as.com/tag/rss/atletico_madrid/a";
-    static String feedmundodUrl = "http://mundo-deportivo10.webnode.es/rss/all.xml";
+    static String feedelpaisUrl = "http://ep00.epimg.net/rss/tags/ultimas_noticias.xml";
     private ProgressDialog progressDialog;
 
     /**
@@ -97,12 +94,12 @@ public class MainActivity extends AppCompatActivity {
                 loadData();
             }
         });
-        Button boton_mundod = (Button) findViewById(R.id.button_mundod);
-        boton_mundod.setOnClickListener(new OnClickListener() {
+        Button botonelpais = (Button) findViewById(R.id.button_elpais);
+        botonelpais.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                setTitle("Noticias en Mundo Deportivo");
-                feedasUrl=feedmundodUrl;
+                setTitle("Noticias de El País");
+                feedasUrl= feedelpaisUrl;
                 loadData();
             }
         });
