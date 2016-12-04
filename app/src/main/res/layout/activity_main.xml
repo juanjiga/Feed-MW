@@ -2,6 +2,7 @@
 
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/LL01"
     android:layout_width="fill_parent"
@@ -13,26 +14,27 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
-        <Button
-          android:text="as"
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          android:id="@+id/button_as"
-          android:layout_weight="1"/>
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/button_as"
+            android:layout_weight="1"
+            app:srcCompat="@drawable/as30x30"/>
 
-        <Button
-            android:text="marca"
+        <ImageButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/button_marca"
-            android:layout_weight="1"/>
+            android:layout_weight="1"
+            app:srcCompat="@drawable/marca26x30"/>
 
-        <Button
-            android:text="el país"
+        <ImageButton
+
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/button_elpais"
-            android:layout_weight="1" />
+            android:id="@+id/button_md"
+            android:layout_weight="1"
+            app:srcCompat="@drawable/md30x30"/>
     </LinearLayout>
 
     <ListView

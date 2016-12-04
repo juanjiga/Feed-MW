@@ -9,13 +9,23 @@
         android:text="TextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
         android:id="@+id/textView1"
-        android:textColor="#123589"/>
+        android:textColor="#123589"
+        android:background="#e6fa0f"/>
 
     <TextView
         android:text="TextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/textView2"
-        android:textColor="#A9FB24"/>
+        android:textColor="#385804"/>
+
+    <TextView
+        android:text="TextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/textView3"
+        android:textColor="#A93574"
+        />
 </LinearLayout>

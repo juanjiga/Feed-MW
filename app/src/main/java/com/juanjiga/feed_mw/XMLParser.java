@@ -33,7 +33,7 @@ public class XMLParser {
             Document dom = builder.parse(this.url.openConnection().getInputStream());
             Element root = dom.getDocumentElement();
             NodeList items = root.getElementsByTagName("item");
-            for (int i=0;i<items.getLength();i++){
+            for (int i=0; i<items.getLength();i++){     //i<10; i++){
                 entry = new HashMap<String, String>();
                 Node item = items.item(i);
                 NodeList properties = item.getChildNodes();
@@ -44,6 +44,8 @@ public class XMLParser {
                         entry.put(MainActivity.DATA_TITLE, property.getFirstChild().getNodeValue());
                     } else if (name.equalsIgnoreCase("link")){
                         entry.put(MainActivity.DATA_LINK, property.getFirstChild().getNodeValue());
+                    } else if (name.equalsIgnoreCase("description")) {
+                        entry.put(MainActivity.DATA_DESCRIPTION, property.getFirstChild().getNodeValue());
                     }
                 }
                 entries.add(entry);
